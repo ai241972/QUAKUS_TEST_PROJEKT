@@ -1,5 +1,5 @@
-# Usar una imagen con OpenJDK 17 y Maven
-FROM maven:3.9.4-openjdk-17-slim AS build
+# Usar una imagen con Maven y OpenJDK 17
+FROM maven:3.9.4-openjdk AS build
 
 # Directorio de trabajo
 WORKDIR /app
