@@ -1,5 +1,18 @@
-*
+# Ignorar todo el target excepto lo necesario
+target/*
 !target/*-runner
 !target/*-runner.jar
 !target/lib/*
 !target/quarkus-app/*
+
+# Ignora archivos temporales y logs
+*.log
+*.swp
+*.tmp
+
+# Ignora directorios de herramientas de desarrollo
+.idea
+.vscode
+*.iml
+*.ipr
+
