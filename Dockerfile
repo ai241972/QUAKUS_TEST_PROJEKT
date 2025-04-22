@@ -1,5 +1,5 @@
 # Usar una imagen con Maven y OpenJDK 17
-FROM maven:3.9.4-jdk-17 AS build
+FROM maven:3.9.4-eclipse-temurin-17 AS build
 
 # Directorio de trabajo
 WORKDIR /app
@@ -15,7 +15,7 @@ COPY . .
 RUN mvn package -DskipTests
 
 # Imagen final para ejecución con OpenJDK 17
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jdk-alpine
 
 WORKDIR /app
 
