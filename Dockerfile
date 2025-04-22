@@ -1,5 +1,5 @@
-# Usar una imagen con OpenJDK 21
-FROM maven:3.9.4-openjdk-17 AS build
+# Usar una imagen con OpenJDK 17 y Maven
+FROM maven:3.9.4-openjdk-17-slim AS build
 
 # Directorio de trabajo
 WORKDIR /app
@@ -14,8 +14,8 @@ COPY . .
 # Construye el proyecto
 RUN mvn package -DskipTests
 
-# Imagen final para ejecución
-FROM openjdk:21-jdk-slim
+# Imagen final para ejecución con OpenJDK 17
+FROM openjdk:17-jdk-slim
 
 WORKDIR /app
 
