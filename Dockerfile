@@ -1,15 +1,28 @@
-# Usa una imagen oficial de Java como base
-FROM openjdk:17-jdk-slim
+# Imagen base con Maven y JDK
+FROM maven:3.9.4-eclipse-temurin-17 AS build
 
-# Establece el directorio de trabajo
+# Directorio de trabajo
 WORKDIR /app
 
-# Copia el JAR de tu proyecto al contenedor
-COPY target/code-with-quarkus-1.0.0-SNAPSHOT.jar /app
+# Copia pom.xml y descarga dependencias
+COPY pom.xml .
+RUN mvn dependency:go-offline
 
-# Expone el puerto que usará tu aplicación (cambia si es necesario)
+# Copia el resto del código
+COPY . .
+
+# Construye el proyecto
+RUN mvn package -DskipTests
+
+# Imagen final para ejecución
+FROM eclipse-temurin:17-jdk-alpine
+
+WORKDIR /app
+
+# Copia el jar generado desde la imagen anterior
+COPY --from=build /app/target/code-with-quarkus-1.0.0-SNAPSHOT.jar /app
+
 EXPOSE 8080
 
-# Comando para ejecutar el JAR
 CMD ["java", "-jar", "code-with-quarkus-1.0.0-SNAPSHOT.jar"]
 
