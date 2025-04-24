@@ -12,7 +12,8 @@ RUN mvn dependency:go-offline
 COPY . .
 
 # Construye el proyecto
-RUN mvn package -DskipTests
+#RUN mvn package -DskipTests
+RUN mvn package -DskipTests -Dquarkus.package.type=uber-jar
 
 # Imagen final para ejecución con OpenJDK 17
 FROM eclipse-temurin:17-jdk-alpine
@@ -20,9 +21,10 @@ FROM eclipse-temurin:17-jdk-alpine
 WORKDIR /app
 
 # Copia el JAR generado desde la imagen anterior
-COPY --from=build /app/target/code-with-quarkus-1.0.0-SNAPSHOT.jar /app
+#COPY --from=build /app/target/code-with-quarkus-1.0.0-SNAPSHOT.jar /app
+COPY --from=build /app/target/code-with-quarkus-1.0.0-SNAPSHOT-runner.jar /app/app.jar
 
 EXPOSE 8080
 
-CMD ["java", "-jar", "code-with-quarkus-1.0.0-SNAPSHOT.jar"]
-
+#CMD ["java", "-jar", "code-with-quarkus-1.0.0-SNAPSHOT.jar"]
+CMD ["java", "-jar", "app.jar"]
